@@ -47,7 +47,7 @@ You can experience the journey through internet history for yourself and check o
 
 * **Live Demo:** https://timetravellersweb.netlify.app/
 
-* **Source Code:** [Link to your GitHub repository]
+* **Source Code:** https://github.com/StutiSharma-SS/Time-Travelers-Web
 
 ## 📜 Credits
 
