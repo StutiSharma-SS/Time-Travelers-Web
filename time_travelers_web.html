@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Traveler's Web</title>
+    <style>
+        :root {
+            /* Default 2025 theme */
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --accent-color: #646cff;
+            --secondary-color: #1a1a1a;
+            --border-color: #333;
+            --font-family: 'Arial', sans-serif;
+            --font-size: 16px;
+            --button-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* 1995 GeoCities Theme */
+        .theme-1995 {
+            --bg-color: #ffff00;
+            --text-color: #ff0000;
+            --accent-color: #00ff00;
+            --secondary-color: #ff00ff;
+            --border-color: #000000;
+            --font-family: 'Comic Sans MS', cursive;
+            --font-size: 18px;
+            --button-bg: linear-gradient(45deg, #ff0000, #ffff00);
+            --shadow: 3px 3px 0px #000000;
+        }
+
+        /* 2005 Web 2.0 Theme */
+        .theme-2005 {
+            --bg-color: linear-gradient(to bottom, #87ceeb, #ffffff);
+            --text-color: #2c3e50;
+            --accent-color: #3498db;
+            --secondary-color: #ecf0f1;
+            --border-color: #bdc3c7;
+            --font-family: 'Verdana', sans-serif;
+            --font-size: 14px;
+            --button-bg: linear-gradient(to bottom, #74b9ff, #0984e3);
+            --shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* 2015 Flat Design Theme */
+        .theme-2015 {
+            --bg-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --secondary-color: #ffffff;
+            --border-color: #bdc3c7;
+            --font-family: 'Helvetica Neue', Arial, sans-serif;
+            --font-size: 16px;
+            --button-bg: #3498db;
+            --shadow: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: var(--font-size);
+            min-height: 100vh;
+            transition: all 0.8s ease;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: var(--shadow);
+            transition: all 0.5s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .year-button {
+            background: var(--button-bg);
+            color: white;
+            border: 2px solid var(--border-color);
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .year-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .year-button.active {
+            transform: scale(1.1);
+            border-color: var(--accent-color);
+        }
+
+        .content-area {
+            background: var(--secondary-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            transition: all 0.8s ease;
+            min-height: 400px;
+        }
+
+        .era-content {
+            display: none;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .era-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .era-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .era-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Era-specific animations */
+        .theme-1995 .title {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .theme-1995 .feature-card {
+            transform: rotate(-1deg);
+        }
+
+        .theme-1995 .feature-card:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .theme-2005 .content-area {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,248,255,0.9));
+            backdrop-filter: blur(5px);
+        }
+
+        .theme-2005 .feature-card {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 15px;
+        }
+
+        .theme-2015 .year-button {
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            background: var(--accent-color);
+        }
+
+        .theme-2015 .content-area {
+            border-radius: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        /* Fun elements */
+        .decorations {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .theme-1995 .decorations::before {
+            content: "✨ ⭐ 🌟 ✨ ⭐ 🌟 ✨ ⭐ 🌟";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(-50%) translateX(-100px); }
+            100% { transform: translateX(-50%) translateX(100px); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        .sound-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .timeline {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .year-button {
+                width: 200px;
+                margin-bottom: 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .content-area {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="theme-2025">
+    <div class="decorations"></div>
+    
+    <button class="sound-toggle" onclick="toggleSound()">🔊 Sound ON</button>
+    
+    <header class="header">
+        <h1 class="title">Time Traveler's Web</h1>
+        <p class="subtitle">Journey Through Internet History - Click a Year to Time Travel!</p>
+    </header>
+
+    <main class="timeline-container">
+        <nav class="timeline">
+            <button class="year-button" onclick="travelToYear(1995)" data-year="1995">1995</button>
+            <button class="year-button" onclick="travelToYear(2005)" data-year="2005">2005</button>
+            <button class="year-button" onclick="travelToYear(2015)" data-year="2015">2015</button>
+            <button class="year-button active" onclick="travelToYear(2025)" data-year="2025">2025</button>
+        </nav>
+
+        <div class="content-area">
+            <!-- 1995 Content -->
+            <div class="era-content" id="era-1995">
+                <h2 class="era-title">Welcome to GeoCities! 🌟</h2>
+                <p class="era-description">
+                    The wild west of the web! Personal homepages ruled supreme with animated GIFs, visitor counters, 
+                    and "Under Construction" signs everywhere. Comic Sans was king and more glitter meant better design!
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">🏠 Personal Homepages</div>
+                        <p>Everyone had their own corner of the internet with custom HTML and wild creativity!</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">✨ Animated GIFs</div>
+                        <p>Dancing babies, spinning logos, and blinking text were the height of web technology.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📊 Visitor Counters</div>
+                        <p>"You are visitor #00042!" - Everyone wanted to know how popular their site was.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🚧 Under Construction</div>
+                        <p>Half the web was perpetually "under construction" with little worker GIFs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2005 Content -->
+            <div class="era-content" id="era-2005">
+                <h2 class="era-title">Web 2.0 Revolution! 🚀</h2>
+                <p class="era-description">
+                    The internet grew up! Social media exploded, everything became glossy and rounded, 
+                    and user-generated content took center stage. MySpace profiles and Facebook walls defined our online identity.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">👥 Social Networks</div>
+                        <p>MySpace, Facebook, and Friendster connected the world like never before.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎨 Glossy Design</div>
+                        <p>Gradients, rounded corners, and reflections made everything look professional.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📱 AJAX Magic</div>
+                        <p>Pages that updated without refreshing felt like magic to users.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎵 MySpace Profiles</div>
+                        <p>Custom HTML, music players, and "Top 8 Friends" drama ruled teenager's lives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2015 Content -->
+            <div class="era-content" id="era-2015">
+                <h2 class="era-title">Flat Design Era 📱</h2>
+                <p class="era-description">
+                    Mobile-first design took over! Everything became flat, clean, and minimal. 
+                    Responsive design was essential, and apps started to influence web design heavily.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">📱 Mobile First</div>
+                        <p>With smartphones everywhere, websites had to work perfectly on small screens.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⬜ Flat Design</div>
+                        <p>Goodbye skeuomorphism! Clean, minimal interfaces became the new standard.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎯 Material Design</div>
+                        <p>Google's design language brought depth through subtle shadows and motion.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⚡ Single Page Apps</div>
+                        <p>SPAs made websites feel more like native mobile applications.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2025 Content -->
+            <div class="era-content active" id="era-2025">
+                <h2 class="era-title">Modern Web Today 🌐</h2>
+                <p class="era-description">
+                    Dark mode reigns supreme, accessibility is crucial, and AI is transforming how we interact with the web. 
+                    Privacy, performance, and personalization define the current era of web development.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">🌙 Dark Mode Everything</div>
+                        <p>Easy on the eyes and battery-friendly - dark themes are everywhere.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">♿ Accessibility First</div>
+                        <p>Inclusive design ensures the web works for everyone, regardless of ability.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🤖 AI Integration</div>
+                        <p>Chatbots, recommendation engines, and smart interfaces powered by AI.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔒 Privacy Focus</div>
+                        <p>Users demand control over their data with transparent privacy policies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Built for CodeSprout Hackathon 2025 • Made with ❤️ and vanilla HTML, CSS, JS</p>
+    </footer>
+
+    <script>
+        let soundEnabled = true;
+        let currentYear = 2025;
+
+        // Sound effects (using Web Audio API)
+        function playSound(frequency, duration) {
+            if (!soundEnabled) return;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function travelToYear(year) {
+            if (currentYear === year) return;
+            
+            currentYear = year;
+            
+            // Play era-specific sound
+            switch(year) {
+                case 1995:
+                    playSound(800, 0.3); // High beep for dial-up era
+                    break;
+                case 2005:
+                    playSound(400, 0.2); // Medium tone for Web 2.0
+                    break;
+                case 2015:
+                    playSound(300, 0.1); // Low, quick for mobile era
+                    break;
+                case 2025:
+                    playSound(500, 0.15); // Smooth modern tone
+                    break;
+            }
+            
+            // Update theme
+            document.body.className = `theme-${year}`;
+            
+            // Update active button
+            document.querySelectorAll('.year-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-year="${year}"]`).classList.add('active');
+            
+            // Hide all content
+            document.querySelectorAll('.era-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected era content
+            document.getElementById(`era-${year}`).classList.add('active');
+            
+            // Add some fun effects
+            if (year === 1995) {
+                document.body.style.cursor = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\' viewBox=\'0 0 20 20\'%3E%3Ctext y=\'18\' font-size=\'16\'%3E✨%3C/text%3E%3C/svg%3E"), auto';
+            } else {
+                document.body.style.cursor = 'default';
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const button = document.querySelector('.sound-toggle');
+            button.textContent = soundEnabled ? '🔊 Sound ON' : '🔇 Sound OFF';
+            
+            if (soundEnabled) {
+                playSound(600, 0.1);
+            }
+        }
+
+        // Add some interactive easter eggs
+        document.addEventListener('keydown', (e) => {
+            // Konami code easter egg: ↑↑↓↓←→←→BA
+            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+            if (!window.konamiProgress) window.konamiProgress = 0;
+            
+            if (e.code === konamiCode[window.konamiProgress]) {
+                window.konamiProgress++;
+                if (window.konamiProgress === konamiCode.length) {
+                    // Easter egg: rapid time travel
+                    const years = [1995, 2005, 2015, 2025];
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        travelToYear(years[i % years.length]);
+                        i++;
+                        if (i >= 12) clearInterval(interval);
+                    }, 200);
+                    window.konamiProgress = 0;
+                }
+            } else {
+                window.konamiProgress = 0;
+            }
+        });
+
+        // Fun hover effects
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (soundEnabled) playSound(200 + Math.random() * 200, 0.1);
+            });
+        });
+
+        // Initialize
+        console.log('🌐 Welcome to the Time Traveler\'s Web!');
+        console.log('🎮 Try the Konami code: ↑↑↓↓←→←→BA');
+    </script>
+</body>
+</html>
