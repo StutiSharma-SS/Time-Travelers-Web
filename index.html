@@ -16,8 +16,25 @@
             --font-size: 16px;
             --button-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --decoration-content: '';
+            --cursor: default;
         }
 
+        /* 1985 Terminal Theme */
+        .theme-1985 {
+            --bg-color: #000000;
+            --text-color: #00ff00;
+            --accent-color: #00ff00;
+            --secondary-color: #000000;
+            --border-color: #00ff00;
+            --font-family: 'Courier New', monospace;
+            --font-size: 18px;
+            --button-bg: #000000;
+            --shadow: 0 0 5px #00ff00;
+            --decoration-content: '>>> Initializing... ';
+            --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%2300FF00'/%3E%3C/svg%3E") 8 8, auto;
+        }
+        
         /* 1995 GeoCities Theme */
         .theme-1995 {
             --bg-color: #ffff00;
@@ -29,6 +46,8 @@
             --font-size: 18px;
             --button-bg: linear-gradient(45deg, #ff0000, #ffff00);
             --shadow: 3px 3px 0px #000000;
+            --decoration-content: '✨ ⭐ 🌟 ✨ ⭐ 🌟 ✨';
+            --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext y='18' font-size='16'%3E✨%3C/text%3E%3C/svg%3E"), auto;
         }
 
         /* 2005 Web 2.0 Theme */
@@ -42,6 +61,8 @@
             --font-size: 14px;
             --button-bg: linear-gradient(to bottom, #74b9ff, #0984e3);
             --shadow: 0 2px 10px rgba(0,0,0,0.2);
+            --decoration-content: '';
+            --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%233498db' /%3E%3C/svg%3E"), auto;
         }
 
         /* 2015 Flat Design Theme */
@@ -55,6 +76,38 @@
             --font-size: 16px;
             --button-bg: #3498db;
             --shadow: none;
+            --decoration-content: '';
+            --cursor: default;
+        }
+
+        /* 2020 Social/Mobile Theme */
+        .theme-2020 {
+            --bg-color: #f0f2f5;
+            --text-color: #1c1e21;
+            --accent-color: #1877f2;
+            --secondary-color: #ffffff;
+            --border-color: #dddfe2;
+            --font-family: 'Segoe UI', system-ui, sans-serif;
+            --font-size: 15px;
+            --button-bg: #1877f2;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --decoration-content: '';
+            --cursor: default;
+        }
+
+        /* 2025 Modern Web Theme */
+        .theme-2025 {
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --accent-color: #646cff;
+            --secondary-color: #1a1a1a;
+            --border-color: #333;
+            --font-family: 'Arial', sans-serif;
+            --font-size: 16px;
+            --button-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --decoration-content: '';
+            --cursor: default;
         }
 
         * {
@@ -71,6 +124,7 @@
             min-height: 100vh;
             transition: all 0.8s ease;
             overflow-x: hidden;
+            cursor: var(--cursor);
         }
 
         .header {
@@ -203,19 +257,24 @@
         }
 
         /* Era-specific animations */
+        .theme-1985 .title::after {
+            content: '_';
+            animation: blink-cursor 1s steps(2, start) infinite;
+        }
+        @keyframes blink-cursor {
+            to { visibility: hidden; }
+        }
+
         .theme-1995 .title {
             animation: blink 1s infinite;
         }
-
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0.7; }
         }
-
         .theme-1995 .feature-card {
             transform: rotate(-1deg);
         }
-
         .theme-1995 .feature-card:nth-child(even) {
             transform: rotate(1deg);
         }
@@ -224,7 +283,6 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,248,255,0.9));
             backdrop-filter: blur(5px);
         }
-
         .theme-2005 .feature-card {
             background: linear-gradient(to bottom, #ffffff, #f8f9fa);
             border-radius: 15px;
@@ -236,10 +294,21 @@
             border: none;
             background: var(--accent-color);
         }
-
         .theme-2015 .content-area {
             border-radius: 0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        .theme-2020 .feature-card {
+            border-radius: 10px;
+            transition: box-shadow 0.3s ease;
+        }
+        .theme-2020 .year-button {
+            border-radius: 20px;
+            border: none;
+            color: #ffffff;
+            background: var(--button-bg);
+            font-weight: normal;
         }
 
         /* Fun elements */
@@ -253,8 +322,8 @@
             z-index: -1;
         }
 
-        .theme-1995 .decorations::before {
-            content: "✨ ⭐ 🌟 ✨ ⭐ 🌟 ✨ ⭐ 🌟";
+        .decorations::before {
+            content: var(--decoration-content);
             position: absolute;
             top: 10px;
             left: 50%;
@@ -262,7 +331,6 @@
             font-size: 1.5rem;
             animation: marquee 10s linear infinite;
         }
-
         @keyframes marquee {
             0% { transform: translateX(-50%) translateX(-100px); }
             100% { transform: translateX(-50%) translateX(100px); }
@@ -274,7 +342,7 @@
             border-top: 1px solid var(--border-color);
             margin-top: 3rem;
         }
-
+        
         .sound-toggle {
             position: fixed;
             top: 20px;
@@ -286,6 +354,7 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
+            z-index: 100;
         }
 
         @media (max-width: 768px) {
@@ -293,16 +362,13 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
             .year-button {
                 width: 200px;
                 margin-bottom: 1rem;
             }
-            
             .title {
                 font-size: 2rem;
             }
-            
             .content-area {
                 padding: 1.5rem;
             }
@@ -320,16 +386,50 @@
     </header>
 
     <main class="timeline-container">
-        <nav class="timeline">
+        <nav class="timeline" aria-label="Internet history timeline">
+            <button class="year-button" onclick="travelToYear(1985)" data-year="1985">1985</button>
             <button class="year-button" onclick="travelToYear(1995)" data-year="1995">1995</button>
             <button class="year-button" onclick="travelToYear(2005)" data-year="2005">2005</button>
             <button class="year-button" onclick="travelToYear(2015)" data-year="2015">2015</button>
+            <button class="year-button" onclick="travelToYear(2020)" data-year="2020">2020</button>
             <button class="year-button active" onclick="travelToYear(2025)" data-year="2025">2025</button>
         </nav>
 
         <div class="content-area">
-            <!-- 1995 Content -->
-            <div class="era-content" id="era-1995">
+            <section class="era-content" id="era-1985">
+                <h2 class="era-title">Terminal Time: The Pre-Web Era</h2>
+                <p class="era-description">
+                    Before the World Wide Web, the internet was a text-based frontier. Users connected to remote systems via Telnet and navigated through command-line interfaces. Bulletin board systems (BBS) were the first online communities.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">📞 Dial-Up Connections</div>
+                        <p>A modem made a screeching noise to connect you to a slow, but functional, network.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📜 Bulletin Board Systems (BBS)</div>
+                        <p>Local online communities where people shared files, messages, and played simple games.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📝 ASCII Art</div>
+                        <p>Creative images and logos were crafted using only text characters.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📧 Email & Usenet</div>
+                        <p>Early forms of communication and newsgroup discussions were a primary use of the network.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🕹️ Text Adventures</div>
+                        <p>Games like Zork captivated users with rich, text-based storytelling and puzzles.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💻 Command-Line Interface</div>
+                        <p>Users interacted with computers and networks by typing commands, not clicking icons.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="era-content" id="era-1995">
                 <h2 class="era-title">Welcome to GeoCities! 🌟</h2>
                 <p class="era-description">
                     The wild west of the web! Personal homepages ruled supreme with animated GIFs, visitor counters, 
@@ -352,11 +452,18 @@
                         <div class="feature-title">🚧 Under Construction</div>
                         <p>Half the web was perpetually "under construction" with little worker GIFs.</p>
                     </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎵 MIDI Music</div>
+                        <p>Websites auto-played simple, lo-fi music that felt futuristic at the time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🖼️ Clunky Tables</div>
+                        <p>Web layouts were created using tables and spacer GIFs, not modern CSS.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- 2005 Content -->
-            <div class="era-content" id="era-2005">
+            <section class="era-content" id="era-2005">
                 <h2 class="era-title">Web 2.0 Revolution! 🚀</h2>
                 <p class="era-description">
                     The internet grew up! Social media exploded, everything became glossy and rounded, 
@@ -379,11 +486,18 @@
                         <div class="feature-title">🎵 MySpace Profiles</div>
                         <p>Custom HTML, music players, and "Top 8 Friends" drama ruled teenager's lives.</p>
                     </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📣 Blogs & RSS Feeds</div>
+                        <p>Everyone had a voice online through personal blogs and subscribed to content with RSS.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🌐 The Cloud</div>
+                        <p>Services like Flickr and Gmail showed the potential of storing data online.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- 2015 Content -->
-            <div class="era-content" id="era-2015">
+            <section class="era-content" id="era-2015">
                 <h2 class="era-title">Flat Design Era 📱</h2>
                 <p class="era-description">
                     Mobile-first design took over! Everything became flat, clean, and minimal. 
@@ -406,11 +520,51 @@
                         <div class="feature-title">⚡ Single Page Apps</div>
                         <p>SPAs made websites feel more like native mobile applications.</p>
                     </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📦 Component-Based UI</div>
+                        <p>Frameworks like React and Vue revolutionized how interfaces were built.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔲 Hamburger Menus</div>
+                        <p>A new standard icon for navigation, hiding complex menus on mobile devices.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- 2025 Content -->
-            <div class="era-content active" id="era-2025">
+            <section class="era-content" id="era-2020">
+                <h2 class="era-title">Social Media Boom 🤳</h2>
+                <p class="era-description">
+                    The mobile app revolution fully matured, and social media platforms became central to our online lives. Feeds, likes, and shares defined the user experience.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">🌐 Infinite Scrolling</div>
+                        <p>A never-ending stream of content to keep you engaged on platforms like Instagram and Twitter.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">👍 The Like Button</div>
+                        <p>The core social currency of the web, giving instant feedback and dopamine hits.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📱 App-Like Experiences</div>
+                        <p>Websites mimicked the feel of mobile apps with a focus on simplicity and user interaction.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔥 Viral Content</div>
+                        <p>Memes, short videos, and challenges spread across the internet at lightning speed.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💬 Live Chat & Video</div>
+                        <p>Integrated real-time communication became a standard feature on most sites.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📈 Data-Driven Design</div>
+                        <p>A/B testing and user analytics became essential for optimizing web experiences.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="era-content active" id="era-2025">
                 <h2 class="era-title">Modern Web Today 🌐</h2>
                 <p class="era-description">
                     Dark mode reigns supreme, accessibility is crucial, and AI is transforming how we interact with the web. 
@@ -433,13 +587,22 @@
                         <div class="feature-title">🔒 Privacy Focus</div>
                         <p>Users demand control over their data with transparent privacy policies.</p>
                     </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🚀 Hyper-Performance</div>
+                        <p>Efforts to make the web faster and more efficient with technologies like WebAssembly.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎨 Generative Design</div>
+                        <p>AI tools can generate design elements and entire web layouts based on simple prompts.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
     </main>
-
+    
     <footer class="footer">
         <p>Built for CodeSprout Hackathon 2025 • Made with ❤️ and vanilla HTML, CSS, JS</p>
+        <p class="easter-egg-hint" style="font-size: 0.8rem; color: #888; margin-top: 10px;">Konami code: ↑ ↑ ↓ ↓ ← → ← → B A</p>
     </footer>
 
     <script>
@@ -474,6 +637,9 @@
             
             // Play era-specific sound
             switch(year) {
+                case 1985:
+                    playSound(100, 0.4); // Low, long beep for terminal
+                    break;
                 case 1995:
                     playSound(800, 0.3); // High beep for dial-up era
                     break;
@@ -482,6 +648,9 @@
                     break;
                 case 2015:
                     playSound(300, 0.1); // Low, quick for mobile era
+                    break;
+                case 2020:
+                    playSound(600, 0.1); // Quick, clean tone for social era
                     break;
                 case 2025:
                     playSound(500, 0.15); // Smooth modern tone
@@ -504,13 +673,6 @@
             
             // Show selected era content
             document.getElementById(`era-${year}`).classList.add('active');
-            
-            // Add some fun effects
-            if (year === 1995) {
-                document.body.style.cursor = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'20\' height=\'20\' viewBox=\'0 0 20 20\'%3E%3Ctext y=\'18\' font-size=\'16\'%3E✨%3C/text%3E%3C/svg%3E"), auto';
-            } else {
-                document.body.style.cursor = 'default';
-            }
         }
 
         function toggleSound() {
@@ -524,26 +686,27 @@
         }
 
         // Add some interactive easter eggs
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        let konamiProgress = 0;
+
         document.addEventListener('keydown', (e) => {
-            // Konami code easter egg: ↑↑↓↓←→←→BA
-            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-            if (!window.konamiProgress) window.konamiProgress = 0;
-            
-            if (e.code === konamiCode[window.konamiProgress]) {
-                window.konamiProgress++;
-                if (window.konamiProgress === konamiCode.length) {
+            // Check for Konami code easter egg: ↑↑↓↓←→←→BA
+            if (e.code === konamiCode[konamiProgress]) {
+                konamiProgress++;
+                if (konamiProgress === konamiCode.length) {
                     // Easter egg: rapid time travel
-                    const years = [1995, 2005, 2015, 2025];
+                    const years = [1985, 1995, 2005, 2015, 2020, 2025];
                     let i = 0;
                     const interval = setInterval(() => {
                         travelToYear(years[i % years.length]);
                         i++;
                         if (i >= 12) clearInterval(interval);
                     }, 200);
-                    window.konamiProgress = 0;
+                    konamiProgress = 0; // Reset after successful entry
                 }
             } else {
-                window.konamiProgress = 0;
+                konamiProgress = 0; // Reset progress if wrong key is pressed
             }
         });
 
@@ -554,9 +717,10 @@
             });
         });
 
-        // Initialize
-        console.log('🌐 Welcome to the Time Traveler\'s Web!');
-        console.log('🎮 Try the Konami code: ↑↑↓↓←→←→BA');
+        // Initialize with the current year content and active button
+        window.onload = () => {
+            travelToYear(2025);
+        }
     </script>
 </body>
 </html>
