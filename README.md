@@ -17,7 +17,7 @@
 
 * **Retro Aesthetics:** Each theme is a tribute to its time, including the text-based terminal of 1985, the animated chaos of 1995, and the clean flat design of 2015.
 
-* **Hidden Easter Egg:** Enter the classic **Konami code** (`↑ ↑ ↓ ↓ ← → ← → B A`) to trigger a rapid-fire time travel animation.
+* **Hidden Easter Egg:** Enter the classic **Konami code** (`↑ ↑ ↓ ↓ ← → ← → B A`) to trigger a rapid-fire time travel animation..
 
 ## 🛠️ Built With
 
